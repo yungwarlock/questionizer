@@ -40,7 +40,7 @@ const Home = (): JSX.Element => {
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
         />
-        <button type="submit" className="absolute hover:bg-[#cb917d] right-4 bg-[#bf6242] p-3 rounded-full">
+        <button type="submit" className="absolute hover:bg-secondaryLight right-4 bg-secondary p-3 rounded-full">
           <ArrowRight className="w-10 h-10 m-auto" />
         </button>
       </div>
@@ -49,7 +49,7 @@ const Home = (): JSX.Element => {
 
 
   return (
-    <div className="flex relative w-full h-full bg-[#d3552c]">
+    <div className="flex relative w-full h-full bg-background">
       {loading && (
         <div className="fixed z-50 bg-black/60 w-full h-full flex flex-col gap-4 justify-center items-center">
           <HashLoader color="#A24527" size={70} />
