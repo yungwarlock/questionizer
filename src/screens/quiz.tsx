@@ -9,6 +9,7 @@ const Quiz = (): JSX.Element => {
   const [topic, setTopic] = React.useState<string>("");
   const [quiz, setQuiz] = React.useState<Quiz | null>(null);
   const [questionIndex, setQuestionIndex] = React.useState<number>(0);
+  const [answers, setAnswers] = React.useState<Record<number, number | undefined>>({});
 
   const onClick = async () => {
     const res = await composeQuiz(topic);
@@ -27,6 +28,19 @@ const Quiz = (): JSX.Element => {
     }
   };
 
+  const onClickAnswer = (answerIndex: number) => {
+    if (isSelected(answerIndex)) {
+      setAnswers({...answers, [questionIndex]: undefined});
+      return;
+    }
+    setAnswers({...answers, [questionIndex]: answerIndex});
+    console.log(answers);
+  };
+
+  const isSelected = (answerIndex: number) => {
+    return answers[questionIndex] === answerIndex;
+  };
+
   return (
     <div className="bg-background w-screen h-screen flex flex-col gap-4 items-center py-6">
       <div className="flex flex-col items-center gap-3">
@@ -39,21 +53,22 @@ const Quiz = (): JSX.Element => {
         </div>
 
         <div className="flex-grow h-full bg-white/50 p-6 flex flex-col">
-          <div className="h-20 flex justify-center items-center font-medium text-lg">
-            <h3>{questions[questionIndex].question}</h3>
+          <div className="h-20 flex flex-col gap-2 mb-6 justify-center items-center font-medium text-lg">
+            <h3 className="text-md">Question {questionIndex + 1}</h3>
+            <h3 className="transition-all">{questions[questionIndex].question}</h3>
           </div>
 
           <div className="flex-grow flex flex-col gap-4">
             <div className="flex flex-col gap-4">
-              <div className="bg-white/10 cursor-pointer rounded-lg flex gap-2 p-4">
+              <div onClick={() => onClickAnswer(0)} className={`transition-all bg-white/10 ${isSelected(0) ? "bg-yellow-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
                 <p>A.</p>
                 <p>{questions[questionIndex].options[0]}</p>
               </div>
-              <div className="bg-white/10 cursor-pointer rounded-lg flex gap-2 p-4">
+              <div onClick={() => onClickAnswer(1)} className={`transition-all bg-white/10 ${isSelected(1) ? "bg-yellow-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
                 <p>B.</p>
                 <p>{questions[questionIndex].options[1]}</p>
               </div>
-              <div className="bg-white/10 cursor-pointer rounded-lg flex gap-2 p-4">
+              <div onClick={() => onClickAnswer(2)} className={`transition-all bg-white/10 ${isSelected(2) ? "bg-yellow-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
                 <p>C.</p>
                 <p>{questions[questionIndex].options[2]}</p>
               </div>
