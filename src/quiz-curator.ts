@@ -40,11 +40,10 @@ export const composeQuiz = async (topic: string): Promise<Quiz> => {
   }
 }
 
-interface Question {
+export interface Question {
   question: string;
-  answers: string[];
-
-  // Index of the correct answer
+  options: string[];
+  explanation: string;
   correctAnswer: number;
 }
 
