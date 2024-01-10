@@ -3,6 +3,7 @@ export enum State {
   Home,
   Ready,
   Quiz,
+  Complete,
 }
 
 
@@ -34,6 +35,11 @@ export class StateMachine {
 
   public static startQuiz(): void {
     this.state = State.Quiz;
+    this.notifyListeners();
+  }
+
+  public static completeQuiz(): void {
+    this.state = State.Complete;
     this.notifyListeners();
   }
 }

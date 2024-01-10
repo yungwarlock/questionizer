@@ -4,6 +4,7 @@ import ArrowLeft from "@heroicons/react/20/solid/ArrowLeftIcon";
 import ArrowRight from "@heroicons/react/20/solid/ArrowRightIcon";
 
 import {Question, Quiz, composeQuiz} from "../quiz-curator";
+import {StateMachine} from "../state-machine";
 
 const Quiz = (): JSX.Element => {
   const [topic, setTopic] = React.useState<string>("");
@@ -16,7 +17,14 @@ const Quiz = (): JSX.Element => {
     setQuiz(res);
   };
 
+  const completeQuiz = () => StateMachine.completeQuiz();
+
   const onClickNext = () => {
+    if (questionIndex === questions.length - 1) {
+      completeQuiz();
+      return;
+    }
+
     if (questionIndex < questions.length - 1) {
       setQuestionIndex(questionIndex + 1);
     }

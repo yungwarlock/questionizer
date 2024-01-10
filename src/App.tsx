@@ -5,6 +5,7 @@ import {State, StateMachine} from "./state-machine";
 import Home from "./screens/home";
 import Quiz from "./screens/quiz";
 import Ready from "./screens/ready";
+import Complete from "./screens/complete";
 
 function App() {
   const [currentState, setCurrentState] = React.useState<State>(State.Home);
@@ -34,6 +35,10 @@ function App() {
 
       {currentState === State.Quiz && (
         <Quiz />
+      )}
+
+      {currentState === State.Complete && (
+        <Complete />
       )}
     </div>
   );
