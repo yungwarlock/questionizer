@@ -1,24 +1,23 @@
 import React from "react";
 
-import {Quiz, composeQuiz} from "./quiz-curator";
+import Home from "./screens/home";
+import {Page} from "./state-machine";
 
 function App() {
-  const [topic, setTopic] = React.useState<string>("");
-  const [quiz, setQuiz] = React.useState<Quiz | null>(null);
-
-  const onClick = async () => {
-    const res = await composeQuiz(topic);
-    setQuiz(res);
-  };
+  const [page, setPage] = React.useState<Page>(Page.Home);
 
   return (
-    <div className="flex flex-col items-center gap-4 h-screen p-8">
-      <h1>Questionizer</h1>
-      <input type="text" className="border rounded-md" value={topic} onChange={(e) => setTopic(e.target.value)} />
-      <button className="border rounded-md w-fit" onClick={onClick}>Generate</button>
-      <div>
-        {JSON.stringify(quiz)}
-      </div>
+    <div className="w-screen h-screen">
+      {page === Page.Home && (
+        <Home />
+      )}
+
+      {page === Page.Quiz && (
+        <div>
+          <h1>About</h1>
+          <button onClick={() => setPage(Page.Home)}>Home</button>
+        </div>
+      )}
     </div>
   );
 }
