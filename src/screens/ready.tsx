@@ -1,5 +1,7 @@
 import React from "react";
 
+import {StateMachine} from "../state-machine";
+
 
 const Ready = (): JSX.Element => {
   const [size, setSize] = React.useState(15);
@@ -21,6 +23,7 @@ const Ready = (): JSX.Element => {
         setSize(15);
         clearInterval(interval);
         clearInterval(sizeInterval);
+        StateMachine.startQuiz();
       }
 
       return () => {

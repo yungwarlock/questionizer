@@ -1,25 +1,38 @@
 import React from "react";
 
-import {Page} from "./state-machine";
+import {State, StateMachine} from "./state-machine";
 
 import Home from "./screens/home";
 import Quiz from "./screens/quiz";
 import Ready from "./screens/ready";
 
 function App() {
-  const [page, setPage] = React.useState<Page>(Page.Home);
+  const [currentState, setCurrentState] = React.useState<State>(State.Home);
+
+  React.useEffect(() => {
+    const currentState = StateMachine.getState();
+    setCurrentState(currentState);
+
+    const unsub = StateMachine.addListener((state) => {
+      setCurrentState(state);
+    });
+
+    return () => {
+      unsub();
+    }
+  }, []);
 
   return (
     <div className="w-screen h-screen">
-      {page === Page.Home && (
+      {currentState === State.Home && (
         <Home />
       )}
 
-      {page === Page.Ready && (
+      {currentState === State.Ready && (
         <Ready />
       )}
 
-      {page === Page.Quiz && (
+      {currentState === State.Quiz && (
         <Quiz />
       )}
     </div>

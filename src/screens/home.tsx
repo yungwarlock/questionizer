@@ -3,6 +3,7 @@ import React from "react";
 import HashLoader from "react-spinners/HashLoader";
 import ArrowRight from "@heroicons/react/20/solid/ArrowRightIcon";
 
+import {StateMachine} from "../state-machine";
 import BackgroundImg from "../assets/background.jpeg";
 
 
@@ -15,6 +16,7 @@ const Home = (): JSX.Element => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      StateMachine.readyWhenYouAre();
     }, 7000);
   };
 
