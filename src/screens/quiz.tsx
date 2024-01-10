@@ -43,19 +43,20 @@ const Quiz = (): JSX.Element => {
 
   return (
     <div className="bg-background w-screen h-screen flex flex-col gap-4 items-center py-6">
-      <div className="flex flex-col items-center gap-3">
-        <h1 className="text-white/30 text-3xl">Questionizer</h1>
-        <h6 className="text-2xl">4:00</h6>
-      </div>
       <div className="flex-grow w-full px-8 flex items-center justify-between">
         <div className="w-3/12 flex">
           <ArrowLeft onClick={onClickPrev} className="transition-all cursor-pointer hover:h-24 hover:w-24 w-16 h-16 text-white/70" />
         </div>
 
-        <div className="flex-grow h-full bg-white/50 p-6 flex flex-col">
-          <div className="h-20 flex flex-col gap-2 mb-6 justify-center items-center font-medium text-lg">
-            <h3 className="text-md">Question {questionIndex + 1}</h3>
-            <h3 className="transition-all">{questions[questionIndex].question}</h3>
+        <div className="flex-grow h-full bg-white/50 gap-4 p-6 flex flex-col">
+          <div className="flex flex-col items-center gap-1">
+            <h1 className="text-white/30 text-3xl">Questionizer</h1>
+            <h6 className="text-2xl">4:00</h6>
+          </div>
+
+          <div className="h-20 flex flex-col gap-3 mb-6 justify-center items-center font-medium text-lg">
+            <h3 className="text-md font-normal">Question {questionIndex + 1}</h3>
+            <h3 className="transition-all font-4xl">{questions[questionIndex].question}</h3>
           </div>
 
           <div className="flex-grow flex flex-col gap-4">
