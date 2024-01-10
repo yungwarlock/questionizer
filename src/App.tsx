@@ -1,7 +1,9 @@
 import React from "react";
 
-import Home from "./screens/home";
 import {Page} from "./state-machine";
+
+import Home from "./screens/home";
+import Quiz from "./screens/quiz";
 import Ready from "./screens/ready";
 
 function App() {
@@ -18,10 +20,7 @@ function App() {
       )}
 
       {page === Page.Quiz && (
-        <div>
-          <h1>About</h1>
-          <button onClick={() => setPage(Page.Home)}>Home</button>
-        </div>
+        <Quiz />
       )}
     </div>
   );
