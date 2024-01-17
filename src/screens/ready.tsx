@@ -50,7 +50,7 @@ const Ready = (): JSX.Element => {
       )}
       {startCountDown && (
         <>
-          <h1 className="text-7xl font-medium">Quiz starts in</h1>
+          <h1 className="text-5xl md:text-7xl font-medium">Quiz starts in</h1>
           <div className="w-1/2 h-1/2 flex items-center justify-center">
             <p style={{
               fontSize: `${size}rem`,
