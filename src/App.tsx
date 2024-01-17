@@ -10,6 +10,12 @@ import Complete from "./screens/complete";
 function App() {
   const [currentState, setCurrentState] = React.useState<State>(State.Home);
 
+  // Generate a random id as quiz id
+  const quizId = React.useMemo(() => {
+    return Math.random().toString(36).substr(2, 9);
+  }, []);
+
+
   React.useEffect(() => {
     const currentState = StateMachine.getState();
     setCurrentState(currentState);
@@ -26,7 +32,7 @@ function App() {
   return (
     <div className="w-screen h-screen">
       {currentState === State.Home && (
-        <Home />
+        <Home quizId={quizId} />
       )}
 
       {currentState === State.Ready && (
@@ -34,7 +40,7 @@ function App() {
       )}
 
       {currentState === State.Quiz && (
-        <Quiz />
+        <Quiz quizId={quizId} />
       )}
 
       {currentState === State.Complete && (

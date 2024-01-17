@@ -5,27 +5,39 @@ import ArrowRight from "@heroicons/react/20/solid/ArrowRightIcon";
 
 import {Question, Quiz, composeQuiz} from "../quiz-curator";
 import {StateMachine} from "../state-machine";
+import {QuizStorage} from "../quiz-storage";
 
-const Quiz = (): JSX.Element => {
-  const [topic, setTopic] = React.useState<string>("");
+interface QuizProps {
+  quizId: string;
+}
+
+const Quiz = ({quizId}: QuizProps): JSX.Element => {
   const [quiz, setQuiz] = React.useState<Quiz | null>(null);
   const [questionIndex, setQuestionIndex] = React.useState<number>(0);
   const [answers, setAnswers] = React.useState<Record<number, number | undefined>>({});
 
-  const onClick = async () => {
-    const res = await composeQuiz(topic);
-    setQuiz(res);
-  };
+
+  React.useEffect(() => {
+    const quiz = QuizStorage.getQuiz(quizId);
+    if (quiz) {
+      setQuiz(quiz);
+    } else {
+      console.log("Quiz not found");
+      window.location.href = "/";
+    }
+  }, []);
 
   const completeQuiz = () => StateMachine.completeQuiz();
 
   const onClickNext = () => {
-    if (questionIndex === questions.length - 1) {
+    if (quiz === null) return;
+
+    if (questionIndex === quiz.questions.length - 1) {
       completeQuiz();
       return;
     }
 
-    if (questionIndex < questions.length - 1) {
+    if (questionIndex < quiz.questions.length - 1) {
       setQuestionIndex(questionIndex + 1);
     }
   };
@@ -64,22 +76,22 @@ const Quiz = (): JSX.Element => {
 
           <div className="h-20 flex flex-col gap-3 mb-6 justify-center items-center font-medium text-lg">
             <h3 className="text-md font-normal">Question {questionIndex + 1}</h3>
-            <h3 className="transition-all font-4xl">{questions[questionIndex].question}</h3>
+            <h3 className="transition-all font-4xl">{quiz?.questions[questionIndex].question}</h3>
           </div>
 
           <div className="flex-grow flex flex-col gap-4">
             <div className="flex flex-col gap-4">
               <div onClick={() => onClickAnswer(0)} className={`transition-all bg-white/10 ${isSelected(0) ? "bg-yellow-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
                 <p>A.</p>
-                <p>{questions[questionIndex].options[0]}</p>
+                <p>{quiz?.questions[questionIndex].options[0]}</p>
               </div>
               <div onClick={() => onClickAnswer(1)} className={`transition-all bg-white/10 ${isSelected(1) ? "bg-yellow-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
                 <p>B.</p>
-                <p>{questions[questionIndex].options[1]}</p>
+                <p>{quiz?.questions[questionIndex].options[1]}</p>
               </div>
               <div onClick={() => onClickAnswer(2)} className={`transition-all bg-white/10 ${isSelected(2) ? "bg-yellow-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
                 <p>C.</p>
-                <p>{questions[questionIndex].options[2]}</p>
+                <p>{quiz?.questions[questionIndex].options[2]}</p>
               </div>
             </div>
           </div>

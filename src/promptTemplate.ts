@@ -28,8 +28,9 @@ Here is the JSON Schema instance your output must adhere to. Include the enclosi
         "title": "A Schema",
         "required": [
             "question",
-            "answers",
-            "correctAnswer"
+            "options",
+            "correctAnswer",
+            "explanation"
         ],
         "properties": {
             "question": {
@@ -37,26 +38,26 @@ Here is the JSON Schema instance your output must adhere to. Include the enclosi
                 "default": "",
                 "title": "The question Schema",
                 "examples": [
-                    "What is SHM"
+                    "Who coined the term 'distributed system'?"
                 ]
             },
-            "answers": {
+            "options": {
                 "type": "array",
                 "default": [],
-                "title": "The answers Schema",
+                "title": "The options Schema",
                 "items": {
                     "type": "string",
                     "title": "A Schema",
                     "examples": [
-                        "simple harmonic motion",
-                        "simple house motion",
-                        "structured harmonic motion"
+                        "Tim Berners-Lee",
+                        "Alan Turing",
+                        "Leslie Lamport"
                     ]
                 },
                 "examples": [
-                    ["simple harmonic motion",
-                        "simple house motion",
-                        "structured harmonic motion"
+                    ["Tim Berners-Lee",
+                        "Alan Turing",
+                        "Leslie Lamport"
                     ]
                 ]
             },
@@ -65,29 +66,39 @@ Here is the JSON Schema instance your output must adhere to. Include the enclosi
                 "default": 0,
                 "title": "The correctAnswer Schema",
                 "examples": [
-                    0
+                    2
+                ]
+            },
+            "explanation": {
+                "type": "string",
+                "default": "",
+                "title": "The explanation Schema",
+                "examples": [
+                    "Leslie Lamport is credited with coining the term 'distributed system.' Lamport is a computer scientist known for his contributions to distributed computing and the development of algorithms for achieving consensus among distributed processes."
                 ]
             }
         },
         "examples": [{
-            "question": "What is SHM",
-            "answers": [
-                "simple harmonic motion",
-                "simple house motion",
-                "structured harmonic motion"
+            "question": "Who coined the term 'distributed system'?",
+            "options": [
+                "Tim Berners-Lee",
+                "Alan Turing",
+                "Leslie Lamport"
             ],
-            "correctAnswer": 0
+            "correctAnswer": 2,
+            "explanation": "Leslie Lamport is credited with coining the term 'distributed system.' Lamport is a computer scientist known for his contributions to distributed computing and the development of algorithms for achieving consensus among distributed processes."
         }]
     },
     "examples": [
         [{
-            "question": "What is SHM",
-            "answers": [
-                "simple harmonic motion",
-                "simple house motion",
-                "structured harmonic motion"
+            "question": "Who coined the term 'distributed system'?",
+            "options": [
+                "Tim Berners-Lee",
+                "Alan Turing",
+                "Leslie Lamport"
             ],
-            "correctAnswer": 0
+            "correctAnswer": 2,
+            "explanation": "Leslie Lamport is credited with coining the term 'distributed system.' Lamport is a computer scientist known for his contributions to distributed computing and the development of algorithms for achieving consensus among distributed processes."
         }]
     ]
 }
@@ -98,49 +109,104 @@ Topic: Simple Harmonic Motion
 Questions: \`\`\`json
 [
   {
-    "question": "Who first discovered simple harmonic motion?",
-    "answers": [
-      "Galileo Galilei",
-      "Isaac Newton",
-      "Albert Einstein"
+    "question": "Who coined the term 'distributed system'?",
+    "options": [
+      "Tim Berners-Lee",
+      "Alan Turing",
+      "Leslie Lamport"
     ],
-	"correctAnswer: 0
+    "correctAnswer": 2,
+    "explanation": "Leslie Lamport is credited with coining the term 'distributed system.' Lamport is a computer scientist known for his contributions to distributed computing and the development of algorithms for achieving consensus among distributed processes."
   },
   {
-    "question": "What is the relationship between displacement, velocity, and acceleration in SHM?",
-    "answers": [
-	  "Velocity is proportional to displacement.",
-      "Acceleration is proportional to the negative of displacement.",
-      "Displacement is proportional to acceleration."
+    "question": "What is the main advantage of a distributed system?",
+    "options": [
+      "Reduced cost",
+      "Improved performance",
+      "Increased reliability"
     ],
-	"correctAnswer: 2
+    "correctAnswer": 2,
+    "explanation": "The main advantage of a distributed system is increased reliability. By distributing tasks across multiple nodes, the system becomes more resilient to failures in individual components, leading to improved overall reliability."
   },
   {
-    "question": "What is the frequency of a simple harmonic oscillator?",
-    "answers": [
-      "The time it takes for one oscillation.",
-      "The energy of the oscillator."
-      "The number of oscillations per second.",
+    "question": "What is CAP theorem in the context of distributed systems?",
+    "options": [
+      "Consistency, Availability, Partition tolerance",
+      "Concurrency, Atomicity, Persistence",
+      "Computability, Adaptability, Performance"
     ],
-	"correctAnswer: 2
+    "correctAnswer": 0,
+    "explanation": "CAP theorem states that in a distributed system, it is impossible to simultaneously achieve all three goals of Consistency, Availability, and Partition tolerance. The theorem has significant implications for designing and understanding distributed systems."
   },
   {
-    "question": "What is the amplitude of a simple harmonic oscillator?",
-    "answers": [
-      "The velocity of the oscillator at its equilibrium position.",
-      "The maximum displacement of the oscillator from its equilibrium position.",
-      "The acceleration of the oscillator at its equilibrium position."
+    "question": "Which communication model is commonly used in distributed systems?",
+    "options": [
+      "Synchronous communication",
+      "Asynchronous communication",
+      "Parallel communication"
     ],
-	"correctAnswer: 1
+    "correctAnswer": 1,
+    "explanation": "Asynchronous communication is commonly used in distributed systems. It allows nodes to operate independently and communicate without the need for strict synchronization, enhancing system flexibility and responsiveness."
   },
   {
-    "question": "What is the period of a simple harmonic oscillator?",
-    "answers": [
-      "The time it takes for one oscillation.",
-      "The number of oscillations per second.",
-      "The energy of the oscillator."
+    "question": "What is the purpose of a distributed hash table (DHT) in distributed systems?",
+    "options": [
+      "Ensuring fault tolerance",
+      "Load balancing",
+      "Efficient key-based data retrieval"
     ],
-	"correctAnswer: 0
+    "correctAnswer": 2,
+    "explanation": "A Distributed Hash Table (DHT) is used in distributed systems for efficient key-based data retrieval. It enables nodes to locate data by mapping keys to specific nodes, facilitating quick and scalable data access."
+  },
+  {
+    "question": "What is the role of a leader in a distributed consensus algorithm like Paxos or Raft?",
+    "options": [
+      "Ensuring consistency",
+      "Coordinating communication",
+      "Handling partition tolerance"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The role of a leader in distributed consensus algorithms like Paxos or Raft is to coordinate communication among nodes. The leader helps ensure a consistent and agreed-upon state across the distributed system."
+  },
+  {
+    "question": "Which is a common challenge in distributed systems related to data consistency?",
+    "options": [
+      "Race condition",
+      "Deadlock",
+      "Fragmentation"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A common challenge in distributed systems related to data consistency is a race condition. It occurs when multiple processes attempt to access and modify shared data concurrently, leading to unpredictable outcomes."
+  },
+  {
+    "question": "What is the purpose of fault tolerance in distributed systems?",
+    "options": [
+      "Preventing security breaches",
+      "Ensuring system availability despite failures",
+      "Optimizing system performance"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The purpose of fault tolerance in distributed systems is to ensure system availability despite failures. By designing systems to handle faults gracefully, downtime is minimized, and the overall reliability is enhanced."
+  },
+  {
+    "question": "Which protocol is commonly used for communication between nodes in a distributed system?",
+    "options": [
+      "FTP (File Transfer Protocol)",
+      "HTTP (Hypertext Transfer Protocol)",
+      "RPC (Remote Procedure Call)"
+    ],
+    "correctAnswer": 2,
+    "explanation": "RPC (Remote Procedure Call) is commonly used for communication between nodes in a distributed system. It allows processes to execute procedures on remote systems, facilitating distributed computing."
+  },
+  {
+    "question": "What is the role of a load balancer in a distributed system architecture?",
+    "options": [
+      "Ensuring data consistency",
+      "Distributing incoming network traffic across multiple servers",
+      "Handling fault tolerance"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The role of a load balancer in a distributed system architecture is to distribute incoming network traffic across multiple servers. This ensures even resource utilization, prevents overload on specific servers, and enhances system scalability and reliability."
   }
 ]
 \`\`\`

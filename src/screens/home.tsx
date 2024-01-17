@@ -3,21 +3,32 @@ import React from "react";
 import HashLoader from "react-spinners/HashLoader";
 import ArrowRight from "@heroicons/react/20/solid/ArrowRightIcon";
 
+import {QuizStorage} from "../quiz-storage";
+import {composeQuiz} from "../quiz-curator";
 import {StateMachine} from "../state-machine";
+
 import BackgroundImg from "../assets/background.jpeg";
 
 
-const Home = (): JSX.Element => {
+interface HomeProps {
+  quizId: string;
+}
+
+const Home = ({quizId}: HomeProps): JSX.Element => {
   const [topic, setTopic] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      StateMachine.readyWhenYouAre();
-    }, 7000);
+
+    const data = await composeQuiz(topic);
+    QuizStorage.saveQuiz(quizId, data);
+
+    console.log(data);
+
+    setLoading(false);
+    StateMachine.readyWhenYouAre();
   };
 
   const LeftSection = (
