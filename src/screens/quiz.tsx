@@ -16,18 +16,43 @@ const Quiz = ({quizId}: QuizProps): JSX.Element => {
   const [questionIndex, setQuestionIndex] = React.useState<number>(0);
   const [answers, setAnswers] = React.useState<Record<number, number | undefined>>({});
 
-
   React.useEffect(() => {
-    const quiz = QuizStorage.getQuiz(quizId);
-    if (quiz) {
-      setQuiz(quiz);
-    } else {
-      console.log("Quiz not found");
-      window.location.href = "/";
-    }
+    (async () => {
+      const db = new QuizStorage();
+      const quiz = await db.quizzes.get(quizId);
+      if (quiz) {
+        setQuiz(quiz);
+      } else {
+        window.location.href = "/";
+      }
+    })();
   }, []);
 
-  const completeQuiz = () => StateMachine.completeQuiz();
+  const calculateScore = () => {
+    if (quiz === null) return 0;
+
+    let numOfCorrect = 0;
+    for (let i = 0; i < quiz.questions.length; i++) {
+      if (quiz.questions[i].correctAnswer !== answers[i]) {
+        numOfCorrect++;
+      }
+    }
+
+    return numOfCorrect;
+  }
+
+  const completeQuiz = () => {
+    const score = calculateScore();
+
+    const db = new QuizStorage();
+    db.results.add({
+      id: quizId,
+      totalCorrectAnswers: score,
+      results: Object.values(answers) as number[],
+    });
+
+    StateMachine.completeQuiz();
+  }
 
   const onClickNext = () => {
     if (quiz === null) return;
@@ -54,7 +79,6 @@ const Quiz = ({quizId}: QuizProps): JSX.Element => {
       return;
     }
     setAnswers({...answers, [questionIndex]: answerIndex});
-    console.log(answers);
   };
 
   const isSelected = (answerIndex: number) => {

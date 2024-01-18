@@ -1,19 +1,26 @@
+import Dexie from "dexie";
+
 import {Quiz} from "./quiz-curator";
 
-export class QuizStorage {
-  public static saveQuiz(key: string, quiz: Quiz): void {
-    localStorage.setItem(key, JSON.stringify(quiz));
-  }
+interface QuizEntry extends Quiz {
+  id?: string;
+}
 
-  public static getQuiz(key: string): Quiz | null {
-    const quiz = localStorage.getItem(key);
-    if (quiz) {
-      return JSON.parse(quiz);
-    }
-    return null;
-  }
+interface ResultEntry {
+  id?: string;
+  results: number[];
+  totalCorrectAnswers: number;
+}
 
-  public static deleteQuiz(key: string): void {
-    localStorage.removeItem(key);
+export class QuizStorage extends Dexie {
+  quizzes!: Dexie.Table<QuizEntry, string>;
+  results!: Dexie.Table<ResultEntry, string>;
+
+  constructor() {
+    super("QuizStorage");
+    this.version(1).stores({
+      quizzes: "id, topic, *questions",
+      results: "id, results, totalCorrectAnswers"
+    });
   }
 }

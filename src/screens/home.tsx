@@ -23,9 +23,8 @@ const Home = ({quizId}: HomeProps): JSX.Element => {
     setLoading(true);
 
     const data = await composeQuiz(topic);
-    QuizStorage.saveQuiz(quizId, data);
-
-    console.log(data);
+    const db = new QuizStorage();
+    await db.quizzes.add({...data, id: quizId});
 
     setLoading(false);
     StateMachine.readyWhenYouAre();
