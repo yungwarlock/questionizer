@@ -44,7 +44,7 @@ function App() {
       )}
 
       {currentState === State.Complete && (
-        <Complete />
+        <Complete quizId={quizId} />
       )}
     </div>
   );

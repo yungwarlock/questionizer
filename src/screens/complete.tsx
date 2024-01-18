@@ -2,15 +2,36 @@ import React from "react";
 
 import {CircularProgressbar, buildStyles} from "react-circular-progressbar";
 
+import {QuizStorage} from "../quiz-storage";
+
 import "react-circular-progressbar/dist/styles.css";
 
+interface CompleteProps {
+  quizId: string;
+}
 
-const Complete = (): JSX.Element => {
-  const correctAnswers = 8;
-  const totalQuestions = 10;
-  const percentage = (correctAnswers / totalQuestions) * 100;
+const Complete = ({quizId}: CompleteProps): JSX.Element => {
+  const [percentage, setPercentage] = React.useState(0);
+  const [correctAnswers, setCorrectAnswers] = React.useState(0);
+  const [totalQuestions, setTotalQuestions] = React.useState(0);
 
   const [progressBar, setProgressBar] = React.useState(0);
+
+  const db = new QuizStorage();
+
+  React.useEffect(() => {
+    (async () => {
+      const score = await db.results.get(quizId);
+      if (!score) {
+        return;
+      }
+
+      setTotalQuestions(score.results.length);
+      setCorrectAnswers(score.totalCorrectAnswers);
+      const res = (correctAnswers / totalQuestions) * 100;
+      setPercentage(res);
+    })();
+  }, [db, quizId]);
 
   React.useEffect(() => {
     document.title = "Test Complete";
