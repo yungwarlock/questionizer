@@ -3,9 +3,9 @@ import React from "react";
 import ArrowLeft from "@heroicons/react/20/solid/ArrowLeftIcon";
 import ArrowRight from "@heroicons/react/20/solid/ArrowRightIcon";
 
-import {Question, Quiz, composeQuiz} from "../quiz-curator";
-import {StateMachine} from "../state-machine";
+import {Quiz} from "../quiz-curator";
 import {QuizStorage} from "../quiz-storage";
+import {StateMachine} from "../state-machine";
 
 interface QuizProps {
   quizId: string;
@@ -62,16 +62,15 @@ const Quiz = ({quizId}: QuizProps): JSX.Element => {
   };
 
   return (
-    <div className="bg-background w-screen h-screen flex flex-col gap-4 items-center py-6">
-      <div className="flex-grow w-full px-8 flex items-center justify-between">
-        <div className="w-3/12 flex">
+    <div className="bg-background w-screen h-screen flex flex-col gap-4 items-center">
+      <div className="flex-grow w-full p-6 flex items-center justify-between">
+        <div className="hidden w-3/12 md:flex">
           <ArrowLeft onClick={onClickPrev} className="transition-all cursor-pointer hover:h-24 hover:w-24 w-16 h-16 text-white/70" />
         </div>
 
-        <div className="flex-grow h-full bg-white/50 gap-4 p-6 flex flex-col">
+        <div className="flex-grow h-full rounded-lg bg-white/40 gap-4 px-4 py-6 flex flex-col">
           <div className="flex flex-col items-center gap-1">
             <h1 className="text-white/30 text-3xl">Questionizer</h1>
-            <h6 className="text-2xl">4:00</h6>
           </div>
 
           <div className="h-20 flex flex-col gap-3 mb-6 justify-center items-center font-medium text-lg">
@@ -95,8 +94,20 @@ const Quiz = ({quizId}: QuizProps): JSX.Element => {
               </div>
             </div>
           </div>
+
+          <div className="md:hidden h-16 flex gap-2 justify-between rounded-lg bg-white/20 px-4">
+            <div onClick={onClickPrev} className="w-1/2 flex items-center">
+              <ArrowLeft className="transition-all cursor-pointer w-8 h-8 text-white/40" />
+              <h3 className="text-sm">Previous</h3>
+            </div>
+            <div onClick={onClickNext} className="w-1/2 flex items-center flex-row-reverse">
+              <ArrowRight className="transition-all cursor-pointer w-8 h-8 text-white/40" />
+              <h3 className="text-sm">Next</h3>
+            </div>
+          </div>
+
         </div>
-        <div className="w-3/12 flex flex-row-reverse">
+        <div className="hidden w-3/12 md:flex flex-row-reverse">
           <ArrowRight onClick={onClickNext} className="transition-all cursor-pointer hover:h-24 hover:w-24 w-16 h-16 text-white/70" />
         </div>
       </div>
@@ -104,37 +115,5 @@ const Quiz = ({quizId}: QuizProps): JSX.Element => {
   );
 }
 
-const questions = [
-  {
-    question: "Which function is used to serialize an object into a JSON String",
-    options: [
-      "JSON.stringify()",
-      "JSON.parse()",
-      "JSON.serialize()"
-    ],
-    correctAnswer: 0,
-    explanation: "JSON.stringify() is used to serialize an object into a JSON String"
-  },
-  {
-    question: "Which function is used to deserialize a JSON String into an object",
-    options: [
-      "JSON.stringify()",
-      "JSON.parse()",
-      "JSON.serialize()"
-    ],
-    correctAnswer: 1,
-    explanation: "JSON.parse() is used to deserialize a JSON String into an object"
-  },
-  {
-    question: "Which function is used to serialize an object into a JSON String",
-    options: [
-      "JSON.stringify()",
-      "JSON.parse()",
-      "JSON.serialize()"
-    ],
-    correctAnswer: 0,
-    explanation: "JSON.stringify() is used to serialize an object into a JSON String"
-  },
-] as Question[];
 
 export default Quiz;
