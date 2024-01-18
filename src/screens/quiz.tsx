@@ -23,7 +23,7 @@ const Quiz = ({quizId}: QuizProps): JSX.Element => {
       if (quiz) {
         setQuiz(quiz);
       } else {
-        window.location.href = "/";
+        StateMachine.goHome();
       }
     })();
   }, []);
