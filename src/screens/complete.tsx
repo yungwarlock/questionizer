@@ -2,9 +2,11 @@ import React from "react";
 
 import {CircularProgressbar, buildStyles} from "react-circular-progressbar";
 
-import {QuizStorage} from "../quiz-storage";
-
 import "react-circular-progressbar/dist/styles.css";
+
+import {QuizStorage} from "../quiz-storage";
+import {StateMachine} from "../state-machine";
+
 
 interface CompleteProps {
   quizId: string;
@@ -60,17 +62,14 @@ const Complete = ({quizId}: CompleteProps): JSX.Element => {
           <div className="flex flex-col justify-center items-center w-full h-[300px]">
             <CircularProgressbar value={progressBar} text={`${correctAnswers}/${totalQuestions}`}
               styles={buildStyles({
-                textSize: '16px',
+                textSize: "16px",
 
                 pathTransitionDuration: 0.5,
 
-                // pathTransition: 'none',
-
-                // Colors
                 pathColor: "#c39f93",
-                textColor: '#ffffff',
-                trailColor: '#d6d6d6',
-                backgroundColor: '#3e98c7',
+                textColor: "#ffffff",
+                trailColor: "#d6d6d6",
+                backgroundColor: "#3e98c7",
               })}
             />
           </div>

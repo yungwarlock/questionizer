@@ -17,7 +17,7 @@ const Ready = (): JSX.Element => {
 
       const sizeInterval = setInterval(() => {
         setSize((prev) => prev - 1);
-      }, 150);
+      }, 100);
 
       if (count === 0) {
         setSize(15);

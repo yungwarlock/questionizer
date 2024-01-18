@@ -34,6 +34,7 @@ export const composeQuiz = async (topic: string): Promise<Quiz> => {
   const res = await api.json();
   const data = res.choices[0].message.content.replace("```json", "").replace("```", "");
   const questions = JSON.parse(data) as Question[];
+
   return {
     topic,
     questions,
