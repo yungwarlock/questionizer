@@ -33,7 +33,7 @@ const Quiz = ({quizId}: QuizProps): JSX.Element => {
 
     let numOfCorrect = 0;
     for (let i = 0; i < quiz.questions.length; i++) {
-      if (quiz.questions[i].correctAnswer !== answers[i]) {
+      if (quiz.questions[i].correctAnswer === answers[i]) {
         numOfCorrect++;
       }
     }
