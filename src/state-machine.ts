@@ -1,4 +1,3 @@
-
 export enum State {
   Home,
   Ready,
@@ -26,6 +25,16 @@ export class StateMachine {
     return () => {
       this.listeners = this.listeners.filter((l) => l !== listener);
     }
+  }
+
+  public static goHome(): void {
+    this.state = State.Home;
+    this.notifyListeners();
+  }
+
+  public static checkCorrection(): void {
+    this.state = State.Quiz;
+    this.notifyListeners();
   }
 
   public static readyWhenYouAre(): void {
