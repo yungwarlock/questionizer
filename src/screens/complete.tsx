@@ -21,6 +21,14 @@ const Complete = ({quizId}: CompleteProps): JSX.Element => {
 
   const db = new QuizStorage();
 
+  const onClickTryAgain = () => {
+    StateMachine.goHome();
+  }
+
+  const onClickCorrections = () => {
+    StateMachine.checkCorrection();
+  }
+
   React.useEffect(() => {
     (async () => {
       const score = await db.results.get(quizId);
@@ -76,8 +84,8 @@ const Complete = ({quizId}: CompleteProps): JSX.Element => {
         </div>
 
         <div className="w-full md:px-4 flex justify-between items-center">
-          <button className="px-6 py-3 rounded-2xl bg-secondaryLight hover:bg-secondaryLight">Try again</button>
-          <button className="px-6 py-3 rounded-2xl bg-secondaryLight hover:bg-secondaryLight">Corrections</button>
+          <button onClick={onClickTryAgain} className="px-6 py-3 rounded-2xl bg-secondaryLight hover:bg-secondaryLight">Try again</button>
+          <button onClick={onClickCorrections} className="px-6 py-3 rounded-2xl bg-secondaryLight hover:bg-secondaryLight">Corrections</button>
         </div>
       </div>
     </div>

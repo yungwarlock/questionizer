@@ -14,6 +14,7 @@ interface QuizProps {
 const Quiz = ({quizId}: QuizProps): JSX.Element => {
   const [quiz, setQuiz] = React.useState<Quiz | null>(null);
   const [questionIndex, setQuestionIndex] = React.useState<number>(0);
+  const [isQuizComplete, setIsQuizComplete] = React.useState<boolean>(false);
   const [answers, setAnswers] = React.useState<Record<number, number | undefined>>({});
 
   React.useEffect(() => {
@@ -27,6 +28,19 @@ const Quiz = ({quizId}: QuizProps): JSX.Element => {
       }
     })();
   }, []);
+
+  React.useEffect(() => {
+    (async () => {
+      const quizResults = await db.results.get(quizId);
+      if (typeof quizResults !== "undefined") {
+        const answers = quizResults.results;
+        setAnswers(answers);
+        setIsQuizComplete(true);
+      }
+    })();
+  }, [quizId]);
+
+  const db = React.useMemo(() => new QuizStorage(), []);
 
   const calculateScore = () => {
     if (quiz === null) return 0;
@@ -44,7 +58,6 @@ const Quiz = ({quizId}: QuizProps): JSX.Element => {
   const completeQuiz = () => {
     const score = calculateScore();
 
-    const db = new QuizStorage();
     db.results.add({
       id: quizId,
       totalCorrectAnswers: score,
@@ -85,6 +98,12 @@ const Quiz = ({quizId}: QuizProps): JSX.Element => {
     return answers[questionIndex] === answerIndex;
   };
 
+  const isCorrectAnswer = (answerIndex: number) => {
+    if (quiz === null) return false;
+    if (!isQuizComplete) return false;
+    return quiz.questions[questionIndex].correctAnswer === answerIndex;
+  };
+
   return (
     <div className="bg-background w-screen h-screen flex flex-col gap-4 items-center">
       <div className="flex-grow w-full p-6 flex items-center justify-between">
@@ -104,19 +123,23 @@ const Quiz = ({quizId}: QuizProps): JSX.Element => {
 
           <div className="flex-grow flex flex-col gap-4">
             <div className="flex flex-col gap-4">
-              <div onClick={() => onClickAnswer(0)} className={`transition-all bg-white/10 ${isSelected(0) ? "bg-yellow-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
+              <div onClick={() => onClickAnswer(0)} className={`transition-all bg-white/10 ${isSelected(0) ? "bg-yellow-400" : ""} ${isCorrectAnswer(0) ? "bg-green-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
                 <p>A.</p>
                 <p>{quiz?.questions[questionIndex].options[0]}</p>
               </div>
-              <div onClick={() => onClickAnswer(1)} className={`transition-all bg-white/10 ${isSelected(1) ? "bg-yellow-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
+              <div onClick={() => onClickAnswer(1)} className={`transition-all bg-white/10 ${isSelected(1) ? "bg-yellow-400" : ""} ${isCorrectAnswer(1) ? "bg-green-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
                 <p>B.</p>
                 <p>{quiz?.questions[questionIndex].options[1]}</p>
               </div>
-              <div onClick={() => onClickAnswer(2)} className={`transition-all bg-white/10 ${isSelected(2) ? "bg-yellow-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
+              <div onClick={() => onClickAnswer(2)} className={`transition-all bg-white/10 ${isSelected(2) ? "bg-yellow-400" : ""} ${isCorrectAnswer(2) ? "bg-green-400" : ""} cursor-pointer rounded-lg flex gap-2 p-4`}>
                 <p>C.</p>
                 <p>{quiz?.questions[questionIndex].options[2]}</p>
               </div>
             </div>
+          </div>
+
+          <div className="flex-grow">
+            {isQuizComplete && quiz?.questions[questionIndex].explanation}
           </div>
 
           <div className="md:hidden h-16 flex gap-2 justify-between rounded-lg bg-white/20 px-4">
