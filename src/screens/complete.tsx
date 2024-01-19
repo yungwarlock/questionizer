@@ -22,7 +22,7 @@ const Complete = ({quizId}: CompleteProps): JSX.Element => {
   const db = new QuizStorage();
 
   const onClickTryAgain = () => {
-    StateMachine.goHome();
+    StateMachine.newQuiz();
   }
 
   const onClickCorrections = () => {

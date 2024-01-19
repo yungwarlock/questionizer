@@ -1,4 +1,5 @@
 export enum State {
+  New,
   Home,
   Ready,
   Quiz,
@@ -7,7 +8,7 @@ export enum State {
 
 
 export class StateMachine {
-  private static state: State = State.Home;
+  private static state: State = State.New;
   private static listeners: Array<(state: State) => void> = [];
 
   private static notifyListeners(): void {
@@ -25,6 +26,11 @@ export class StateMachine {
     return () => {
       this.listeners = this.listeners.filter((l) => l !== listener);
     }
+  }
+
+  public static newQuiz(): void {
+    this.state = State.New;
+    this.notifyListeners();
   }
 
   public static goHome(): void {

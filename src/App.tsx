@@ -7,14 +7,18 @@ import Quiz from "./screens/quiz";
 import Ready from "./screens/ready";
 import Complete from "./screens/complete";
 
+
 function App() {
-  const [currentState, setCurrentState] = React.useState<State>(State.Home);
+  const [currentState, setCurrentState] = React.useState<State>(State.New);
+  const [quizId, setQuizId] = React.useState<string>("");
 
-  // Generate a random id as quiz id
-  const quizId = React.useMemo(() => {
-    return Math.random().toString(36).substr(2, 9);
-  }, []);
-
+  React.useEffect(() => {
+    if (StateMachine.getState() == State.New) {
+      const id = Math.random().toString(36).substr(2, 9);
+      setQuizId(id);
+      StateMachine.goHome();
+    }
+  });
 
   React.useEffect(() => {
     const currentState = StateMachine.getState();
